@@ -3,7 +3,7 @@
 This takes about 10 minutes, and you only do it once.
 
 ## 1. Make the Google Sheet and its script
-1. Create a new Google Sheet. Name it, for example, "Sopaan Class 9 Quiz Records".
+1. Open the records sheet: https://docs.google.com/spreadsheets/d/1mm6mCNhvse0DnForcc1HuOCLWsllwakb39i-a2Uuv60/edit (its ID is already in Code.gs).
 2. In the sheet, open **Extensions › Apps Script**. Delete the starter code, then paste in all of `apps-script/Code.gs`.
 3. Leave the script open. You'll paste the Client ID into it in step 2.
 

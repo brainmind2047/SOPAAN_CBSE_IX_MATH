@@ -13,6 +13,9 @@
  * Execute as: Me, Who has access: Anyone.
  */
 const CLIENT_ID = 'PASTE_YOUR_CLIENT_ID.apps.googleusercontent.com';
+// The Google Sheet that keeps the records:
+// https://docs.google.com/spreadsheets/d/1mm6mCNhvse0DnForcc1HuOCLWsllwakb39i-a2Uuv60/edit
+const SPREADSHEET_ID = '1mm6mCNhvse0DnForcc1HuOCLWsllwakb39i-a2Uuv60';
 const SHEET_NAME = 'Quiz Records';
 const HEADERS = ['User Name', 'Quiz Name', 'Completion Status', 'Completion Date', 'Completion Time', 'Email', 'Quiz Key', 'Score', 'Total'];
 // Leave empty to accept any Google account, or list domains, e.g. ['gmail.com', 'yourschool.in'].
@@ -30,7 +33,7 @@ function setup() {
 
 function shareWithAdmin_() {
   if (!ADMIN_EMAIL) return;
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = ss_();
   const owner = ss.getOwner() && ss.getOwner().getEmail().toLowerCase();
   if (owner === ADMIN_EMAIL.toLowerCase()) return;
   const editors = ss.getEditors().map(function (u) { return u.getEmail().toLowerCase(); });
@@ -68,9 +71,11 @@ function verifyUser_(idToken) {
   return { email: email, name: p.name || email };
 }
 
+function ss_() { return SpreadsheetApp.openById(SPREADSHEET_ID); }
+
 /** The "Quiz Records" sheet, created with headers if missing. */
 function sheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = ss_();
   let sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) sh = ss.insertSheet(SHEET_NAME);
   if (sh.getLastRow() === 0) {
