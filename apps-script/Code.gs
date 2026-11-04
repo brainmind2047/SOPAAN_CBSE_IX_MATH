@@ -17,6 +17,25 @@ const SHEET_NAME = 'Quiz Records';
 const HEADERS = ['User Name', 'Quiz Name', 'Completion Status', 'Completion Date', 'Completion Time', 'Email', 'Quiz Key', 'Score', 'Total'];
 // Leave empty to accept any Google account, or list domains, e.g. ['gmail.com', 'yourschool.in'].
 const ALLOWED_DOMAINS = [];
+// Teacher / records owner: the Quiz Records sheet is shared with this Google account (edit access).
+const ADMIN_EMAIL = 'ankitagarwal5986@gmail.com';
+
+/** Run once from the Apps Script editor (select "setup" > Run): creates the "Quiz Records" tab
+ *  and shares the spreadsheet with ADMIN_EMAIL. */
+function setup() {
+  sheet_();
+  shareWithAdmin_();
+  Logger.log('Quiz Records is ready and shared with ' + ADMIN_EMAIL);
+}
+
+function shareWithAdmin_() {
+  if (!ADMIN_EMAIL) return;
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const owner = ss.getOwner() && ss.getOwner().getEmail().toLowerCase();
+  if (owner === ADMIN_EMAIL.toLowerCase()) return;
+  const editors = ss.getEditors().map(function (u) { return u.getEmail().toLowerCase(); });
+  if (editors.indexOf(ADMIN_EMAIL.toLowerCase()) < 0) ss.addEditor(ADMIN_EMAIL);
+}
 
 function doPost(e) {
   let out;
@@ -59,6 +78,7 @@ function sheet_() {
     sh.setFrozenRows(1);
     sh.getRange('A1:I1').setFontWeight('bold');
     sh.getRange('D:E').setNumberFormat('@'); // keep date and time exactly as written
+    try { shareWithAdmin_(); } catch (e) {}
   }
   return sh;
 }

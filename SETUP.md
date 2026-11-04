@@ -15,6 +15,7 @@ This takes about 10 minutes, and you only do it once.
    - Authorised JavaScript origins: `https://brainmind2047.github.io`
 4. Copy the **Client ID**. It ends with `.apps.googleusercontent.com`.
 5. In the Apps Script editor, paste the Client ID into `CLIENT_ID` on line 15. Save.
+6. `ADMIN_EMAIL` is already set to **ankitagarwal5986@gmail.com**, so the records sheet is shared with that account. In the editor, pick **setup** in the function menu and click **Run** once. This creates the "Quiz Records" tab and adds that account as an editor. If you create the sheet while signed in as ankitagarwal5986@gmail.com, you already own it and nothing extra is added.
 
 ## 3. Deploy the script
 1. In Apps Script, click **Deploy › New deployment › Web app**:
