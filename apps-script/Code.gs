@@ -4,15 +4,16 @@
  * Keeps one row per student per LO test in the sheet "Quiz Records":
  *   User Name | Quiz Name | Completion Status | Completion Date | Completion Time | Email | Quiz Key | Score | Total
  *
- * - The student is identified from their Google sign-in, verified here on Google's side.
- *   The name typed into a form is never used.
+ * - The student is identified by the "Sopaan Sign-in" script (Signin.gs), which reads the Gmail
+ *   account straight from Google. A name typed into a form is never used.
  * - A second attempt is refused while that student's row for the test exists.
  * - To allow a retake, delete that row in the sheet.
  *
- * Setup: see SETUP.md. Paste your OAuth Client ID below, then Deploy > New deployment > Web app,
+ * Setup: see SETUP.md. Paste the Sopaan Sign-in "Lookup" link below, then Deploy > Web app,
  * Execute as: Me, Who has access: Anyone.
  */
-const CLIENT_ID = 'PASTE_YOUR_CLIENT_ID.apps.googleusercontent.com';
+// The "Lookup" deployment link of the Sopaan Sign-in script (Execute as Me, Anyone).
+const SIGNIN_LOOKUP_URL = 'https://script.google.com/macros/s/AKfycbyBHnwvnAfHKj1VW1hcZAoxTvlaEDOvvSsS4XnW35yhFyXRAvGRr8yCgdhgXoc61hpg/exec';
 // The Google Sheet that keeps the records:
 // https://docs.google.com/spreadsheets/d/1mm6mCNhvse0DnForcc1HuOCLWsllwakb39i-a2Uuv60/edit
 const SPREADSHEET_ID = '1mm6mCNhvse0DnForcc1HuOCLWsllwakb39i-a2Uuv60';
@@ -44,7 +45,7 @@ function doPost(e) {
   let out;
   try {
     const req = JSON.parse(e.postData.contents);
-    const user = verifyUser_(req.idToken);
+    const user = sessionUser_(req.session);
     out = handle_(req, user);
   } catch (err) {
     out = { ok: false, error: String((err && err.message) || err) };
@@ -57,18 +58,21 @@ function doGet() {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-/** Checks the Google ID token with Google and returns the signed-in student. */
-function verifyUser_(idToken) {
-  if (!idToken) throw new Error('not_signed_in');
-  const res = UrlFetchApp.fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(idToken), { muteHttpExceptions: true });
-  if (res.getResponseCode() !== 200) throw new Error('token_invalid');
-  const p = JSON.parse(res.getContentText());
-  if (p.aud !== CLIENT_ID) throw new Error('token_wrong_app');
-  if (String(p.email_verified) !== 'true') throw new Error('email_not_verified');
-  if (Number(p.exp) * 1000 < Date.now()) throw new Error('token_expired');
-  const email = String(p.email).toLowerCase();
-  if (ALLOWED_DOMAINS.length && ALLOWED_DOMAINS.indexOf(email.split('@')[1]) < 0) throw new Error('domain_not_allowed');
-  return { email: email, name: p.name || email };
+/** Finds the Gmail account behind a sign-in session code (asks the Sopaan Sign-in script once, then remembers it). */
+function sessionUser_(code) {
+  code = String(code || '').replace(/[^a-f0-9]/g, '').slice(0, 64);
+  if (code.length < 32) throw new Error('not_signed_in');
+  const cache = CacheService.getScriptCache(), hit = cache.get('u_' + code);
+  let u = hit ? JSON.parse(hit) : null;
+  if (!u) {
+    const res = UrlFetchApp.fetch(SIGNIN_LOOKUP_URL + '?lookup=' + code, { muteHttpExceptions: true, followRedirects: true });
+    const j = JSON.parse(res.getContentText());
+    if (!j.ok || !j.email) throw new Error('session_expired');
+    u = { email: String(j.email).toLowerCase(), name: j.name || j.email };
+    cache.put('u_' + code, JSON.stringify(u), 21000);
+  }
+  if (ALLOWED_DOMAINS.length && ALLOWED_DOMAINS.indexOf(u.email.split('@')[1]) < 0) throw new Error('domain_not_allowed');
+  return u;
 }
 
 function ss_() { return SpreadsheetApp.openById(SPREADSHEET_ID); }
