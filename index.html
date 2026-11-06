@@ -1,130 +1,68 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SOPAAN_CBSE_IX_MATH</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sopaan · CBSE Class 9 Mathematics · Sign in</title>
 <style>
-/* Layout: a gradient masthead, then Part I and Part II chapter cards; a teacher-only results table at the end. */
-:root{--paper:#F7F8FC;--card:#FFFFFF;--ink:#1E2235;--soft:#5B6178;--rule:#DCE1EE;--chip:#EEF1FA;--good:#15803D;--good-soft:#DCFCE7;--mid:#B45309;--mid-soft:#FEF3C7;--low:#B91C1C;--low-soft:#FEE2E2;
-  --display:'Fraunces',Georgia,serif;--body:'Source Sans 3',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#11131A;--card:#171A23;--ink:#ECEEF5;--soft:#A3A9BD;--rule:#2C3142;--chip:#1E2230;--good:#4ADE80;--good-soft:#14301F;--mid:#FCD34D;--mid-soft:#3B2A06;--low:#FCA5A5;--low-soft:#450A0A;color-scheme:dark}}
-:root[data-theme="dark"]{--paper:#11131A;--card:#171A23;--ink:#ECEEF5;--soft:#A3A9BD;--rule:#2C3142;--chip:#1E2230;--good:#4ADE80;--good-soft:#14301F;--mid:#FCD34D;--mid-soft:#3B2A06;--low:#FCA5A5;--low-soft:#450A0A;color-scheme:dark}
-*{box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px}
-.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-header.band{background:linear-gradient(120deg,#1D4ED8,#7C3AED 52%,#DB2777);color:#fff;padding-block:34px 30px}
-.in{max-width:1000px;margin:0 auto}
-.brand{font:700 13px var(--body);letter-spacing:.1em;text-transform:uppercase;color:#FDE68A}
-h1{font:700 clamp(30px,6vw,46px)/1.1 var(--display);margin:6px 0 8px;text-wrap:balance}
-header p{margin:0;font-size:18px;color:#E0E7FF;max-width:62ch}
-.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-.stats span{background:rgba(255,255,255,.16);border-radius:14px;padding:8px 14px;font-size:15px}
-.stats b{font:700 22px var(--display);display:block;font-variant-numeric:tabular-nums}
-main.band{padding-block:22px 60px}
-h2{font:700 24px var(--display);margin:28px 0 12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;text-wrap:balance}
-h2 small{font:600 14px var(--body);color:var(--soft)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(290px,100%),1fr));gap:14px}
-a.card{display:flex;flex-direction:column;gap:10px;min-width:0;text-decoration:none;color:inherit;background:var(--card);border:1.5px solid var(--rule);border-top:7px solid var(--c);border-radius:18px;padding:16px;transition:transform .12s,box-shadow .12s}
-a.card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(30,41,90,.12)}
-a.card:focus-visible{outline:3px solid var(--c);outline-offset:2px}
-.num{font:700 13px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
-.t{font:700 20px/1.25 var(--display);text-wrap:balance}
-.los{display:flex;flex-wrap:wrap;gap:5px}
-.los span{font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 9px;background:color-mix(in srgb,var(--l) 14%,transparent);color:var(--l)}
-.meta{display:flex;flex-wrap:wrap;gap:6px;font-size:13.5px;color:var(--soft);margin-top:auto}
-.meta span{background:var(--chip);border-radius:999px;padding:3px 9px;font-variant-numeric:tabular-nums}
-.how{background:var(--card);border:1.5px solid var(--rule);border-radius:18px;padding:16px 18px;font-size:16.5px;line-height:1.6;max-width:80ch}
-.how b{color:#7C3AED}
-footer.band{text-align:center;color:var(--soft);font-size:13.5px;padding-block:20px 28px}
-#teacher{margin-top:34px}
-.tnote{color:var(--soft);font-size:15px;max-width:72ch;margin:0 0 12px}
-.tbtn{font:700 14px var(--body);border:1.5px solid var(--rule);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer}
-.tbtn:focus-visible{outline:3px solid #7C3AED;outline-offset:2px}
-.twrap{overflow-x:auto;border:1.5px solid var(--rule);border-radius:14px;background:var(--card);margin-top:10px}
-table.res{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
-table.res th,table.res td{padding:8px 10px;border-bottom:1px solid var(--rule);text-align:center;white-space:nowrap}
-table.res th{font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--soft);background:var(--chip)}
-table.res td:first-child,table.res th:first-child{text-align:left;position:sticky;left:0;background:var(--card)}
-table.res th:first-child{background:var(--chip)}
-.pill{display:inline-block;min-width:52px;border-radius:999px;padding:2px 8px;font:600 13px var(--mono);font-variant-numeric:tabular-nums}
-.pill.g{background:var(--good-soft);color:var(--good)}.pill.m{background:var(--mid-soft);color:var(--mid)}.pill.l{background:var(--low-soft);color:var(--low)}.pill.n{color:var(--soft)}
-.sub{display:block;font-size:11.5px;color:var(--soft)}
-@media (prefers-reduced-motion:reduce){a.card{transition:none}a.card:hover{transform:none}}
-#reader{position:fixed;inset:0;z-index:50;background:var(--paper);display:flex;flex-direction:column}
-#reader .rbar{display:flex;align-items:center;gap:10px;padding:8px max(12px,env(safe-area-inset-right,0px)) 8px max(12px,env(safe-area-inset-left,0px));padding-top:calc(8px + env(safe-area-inset-top,0px));background:linear-gradient(120deg,#1D4ED8,#7C3AED 52%,#DB2777);color:#fff}
-#reader .rbar button{font:700 14px var(--body);border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:6px 12px;cursor:pointer}
-#reader .rbar span{font:600 15px var(--body);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#reader[hidden]{display:none}
-#qrec{margin-top:34px}
-.qtools{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.qf{font:600 14px var(--body);color:var(--soft);display:flex;gap:6px;align-items:center}
-.qf select{font:600 14px var(--body);padding:6px 10px;border-radius:999px;border:1.5px solid var(--rule);background:var(--card);color:var(--ink)}
-.tbtn.warn{border-color:var(--low);color:var(--low)}
-.st-done{display:inline-block;border-radius:999px;padding:2px 9px;font-weight:700;font-size:13px;background:var(--good-soft);color:var(--good)}
-#reader iframe{flex:1;width:100%;border:0;background:var(--paper)}
-body.reading{overflow:hidden}
+  :root{--brand:#4C1D95;--ink:#0F172A;--soft:#475569;--rule:#E2E8F0;--bg:#F5F3FF;--card:#fff;--err:#B91C1C;--errbg:#FEF2F2}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#E5E7EB;--soft:#9CA3AF;--rule:#1F2937;--bg:#0B1220;--card:#111827;--err:#FCA5A5;--errbg:#3B0D0D}}
+  :root[data-theme="dark"]{--ink:#E5E7EB;--soft:#9CA3AF;--rule:#1F2937;--bg:#0B1220;--card:#111827;--err:#FCA5A5;--errbg:#3B0D0D}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  header{background:linear-gradient(135deg,#4C1D95,#7C3AED 60%,#DB2777);color:#fff;padding:22px 16px 26px;text-align:center}
+  header .eb{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.85} header h1{margin:4px 0 0;font-size:26px;font-weight:700}
+  main{max-width:440px;margin:-14px auto 40px;padding:0 16px}
+  .card{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:22px 20px;box-shadow:0 6px 22px rgba(76,29,149,.10)}
+  h2{margin:0 0 4px;font-size:20px} .lead{margin:0 0 16px;color:var(--soft);font-size:14.5px}
+  label{display:block;font-weight:600;font-size:14px;margin:12px 0 4px} select,input{width:100%;font:inherit;padding:11px 12px;border:1.5px solid var(--rule);border-radius:10px;background:var(--card);color:var(--ink)}
+  input:focus,select:focus{outline:3px solid #C4B5FD;border-color:var(--brand)}
+  button{margin-top:18px;width:100%;font:600 16px system-ui,sans-serif;padding:12px;border:0;border-radius:10px;background:var(--brand);color:#fff;cursor:pointer} button:disabled{opacity:.6;cursor:wait}
+  .err{display:none;margin-top:14px;padding:10px 12px;border-radius:10px;background:var(--errbg);color:var(--err);font-size:14.5px} .err.on{display:block}
+  .note{margin-top:16px;font-size:13px;color:var(--soft)}
 </style>
-<style>body{margin:0}[hidden]{display:none!important}
-.auth{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:18px;background:rgba(255,255,255,.14);border-radius:16px;padding:12px 14px}
-.auth .who{font-size:16px} .auth .who b{color:#FDE68A}
-.auth button.so{font:700 14px var(--body);border:1.5px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:999px;padding:6px 12px;cursor:pointer}
-.gsign{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1E2235;font:700 15px var(--body);text-decoration:none;border-radius:999px;padding:10px 18px;min-height:44px;box-sizing:border-box}.gsign:before{content:'G';font:800 18px/1 Arial,sans-serif;color:#4285F4}
-.note-setup{background:var(--mid-soft);color:var(--mid);border-radius:14px;padding:12px 14px;font-weight:600;margin-top:12px}
-a.card.locked{opacity:.55;pointer-events:auto}
-#reauth{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--card);border-top:2px solid #7C3AED;padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center}
-#reauth[hidden]{display:none}
-.toast2{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1E2235;color:#fff;padding:10px 16px;border-radius:999px;font-weight:600;z-index:70}
-</style>
-<script src="sopaan-config.js"></script>
-</head><body>
-<header class="band"><div class="in"><div class="brand">Brain &amp; Mind Academy · Sopaan Practice Series</div><h1>Class 9 Mathematics</h1>
-<p>Learning and practice sheets for NCERT <i>Ganita Manjari</i> Part I and Part II, organised by learning objective, with book-wise practice and a 30-minute test for every LO.</p>
-<div class="stats"><span><b>14</b>chapters</span><span><b>84</b>learning objectives</span><span><b>4417</b>practice questions</span><span><b>84</b>LO tests · 1119 questions</span></div>
-<div class="auth" id="auth"><a class="gsign" id="gbtn" href="#">Sign in with Google</a><span class="who" id="who">Sign in with your Gmail account to open the chapters.</span><button class="so" id="signout" type="button" hidden>Sign out</button></div>
-<div class="note-setup" id="setup" hidden>Gmail sign-in is not set up yet. Add the sign-in link and the records link to <b>sopaan-config.js</b> (see SETUP.md).</div>
-</div></header>
-<main class="band"><div class="in"><div class="how"><b>How each chapter works:</b> sign in with Gmail → read the 📖 theory notes → practise each LO in Learning mode, book by book (📗 NCERT + extra · 📕 Goyal · 📒 All in One · 📘 R S Aggarwal) → take the 🧪 30-minute LO test (Quiz mode, one attempt, recorded for your teacher) → open the 📊 LO report.</div>
-<h2>📘 Ganita Manjari Part I <small>8 chapters</small></h2><div class="grid"><a class="card" style="--c:#2563EB" href="chapter-01-coordinates.html"><div class="num">Chapter 1</div><div class="t">Orienting Yourself: The Use of Coordinates</div><div class="los"><span style="--l:#2563EB">LO 1 · Axes, origin &amp; points on axes</span><span style="--l:#DB2777">LO 2 · Quadrants &amp; ordered pairs</span><span style="--l:#059669">LO 3 · Plotting plans &amp; figures</span><span style="--l:#EA580C">LO 4 · Distance formula</span><span style="--l:#7C3AED">LO 5 · Collinearity &amp; shapes by distance</span><span style="--l:#0891B2">LO 6 · Midpoints &amp; trisection</span></div><div class="meta"><span>🎯 305 practice</span><span>🧪 6 LO tests</span><span>📗 40 NCERT</span><span>Goyal 102 · All in One 96 · RSA 28</span></div></a><a class="card" style="--c:#DB2777" href="chapter-02-linear-polynomials.html"><div class="num">Chapter 2</div><div class="t">Introduction to Linear Polynomials</div><div class="los"><span style="--l:#2563EB">LO 1 · Polynomial vocabulary &amp; degree</span><span style="--l:#DB2777">LO 2 · Value of a polynomial</span><span style="--l:#059669">LO 3 · Word problems → linear equations</span><span style="--l:#EA580C">LO 4 · Linear patterns, growth &amp; decay</span><span style="--l:#7C3AED">LO 5 · Finding y = ax + b</span><span style="--l:#0891B2">LO 6 · Graphs, slope &amp; y-intercept</span></div><div class="meta"><span>🎯 310 practice</span><span>🧪 6 LO tests</span><span>📗 62 NCERT</span><span>Goyal 90 · All in One 74 · RSA 41</span></div></a><a class="card" style="--c:#059669" href="chapter-03-number-system.html"><div class="num">Chapter 3</div><div class="t">The World of Numbers</div><div class="los"><span style="--l:#2563EB">LO 1 · Naturals, zero &amp; integers</span><span style="--l:#DB2777">LO 2 · Operations on rationals</span><span style="--l:#059669">LO 3 · Number line &amp; density</span><span style="--l:#EA580C">LO 4 · Proving irrationality</span><span style="--l:#7C3AED">LO 5 · Constructing √n</span><span style="--l:#0891B2">LO 6 · Decimal expansions</span><span style="--l:#CA8A04">LO 7 · Decimals to p/q &amp; classifying</span></div><div class="meta"><span>🎯 419 practice</span><span>🧪 7 LO tests</span><span>📗 66 NCERT</span><span>Goyal 84 · All in One 122 · RSA 99</span></div></a><a class="card" style="--c:#EA580C" href="chapter-04-algebraic-identities.html"><div class="num">Chapter 4</div><div class="t">Exploring Algebraic Identities</div><div class="los"><span style="--l:#2563EB">LO 1 · Square of a binomial</span><span style="--l:#DB2777">LO 2 · Factorising perfect squares</span><span style="--l:#059669">LO 3 · (a + b + c)² &amp; a² − b²</span><span style="--l:#EA580C">LO 4 · Splitting the middle term</span><span style="--l:#7C3AED">LO 5 · Cubic identities</span><span style="--l:#0891B2">LO 6 · Rational expressions &amp; applications</span></div><div class="meta"><span>🎯 370 practice</span><span>🧪 6 LO tests</span><span>📗 60 NCERT</span><span>Goyal 88 · All in One 95 · RSA 79</span></div></a><a class="card" style="--c:#7C3AED" href="chapter-05-circles.html"><div class="num">Chapter 5</div><div class="t">I&#x27;m Up and Down, and Round and Round</div><div class="los"><span style="--l:#2563EB">LO 1 · Circle basics &amp; circles through two points</span><span style="--l:#DB2777">LO 2 · Circumcircle of a triangle</span><span style="--l:#059669">LO 3 · Chords, central angles &amp; perpendiculars</span><span style="--l:#EA580C">LO 4 · Chord length &amp; distance from centre</span><span style="--l:#7C3AED">LO 5 · Angles subtended by arcs</span><span style="--l:#0891B2">LO 6 · Concyclic points &amp; cyclic quadrilaterals</span></div><div class="meta"><span>🎯 407 practice</span><span>🧪 6 LO tests</span><span>📗 59 NCERT</span><span>Goyal 91 · All in One 104 · RSA 108</span></div></a><a class="card" style="--c:#0891B2" href="chapter-06-perimeter-area.html"><div class="num">Chapter 6</div><div class="t">Measuring Space: Perimeter and Area</div><div class="los"><span style="--l:#2563EB">LO 1 · Circumference &amp; π</span><span style="--l:#DB2777">LO 2 · Arcs &amp; composite perimeters</span><span style="--l:#059669">LO 3 · Area formulas for polygons</span><span style="--l:#EA580C">LO 4 · Equal areas &amp; medians</span><span style="--l:#7C3AED">LO 5 · Heron &amp; Brahmagupta</span><span style="--l:#0891B2">LO 6 · Circle, sector &amp; segment areas</span></div><div class="meta"><span>🎯 480 practice</span><span>🧪 6 LO tests</span><span>📗 92 NCERT</span><span>Goyal 148 · All in One 142 · RSA 60</span></div></a><a class="card" style="--c:#CA8A04" href="chapter-07-probability.html"><div class="num">Chapter 7</div><div class="t">The Mathematics of Maybe: Introduction to Probability</div><div class="los"><span style="--l:#2563EB">LO 1 · Randomness &amp; probability scale</span><span style="--l:#DB2777">LO 2 · Experimental probability</span><span style="--l:#059669">LO 3 · Theoretical probability</span><span style="--l:#EA580C">LO 4 · Sample spaces &amp; events</span><span style="--l:#7C3AED">LO 5 · Tree diagrams &amp; tables</span></div><div class="meta"><span>🎯 293 practice</span><span>🧪 5 LO tests</span><span>📗 46 NCERT</span><span>Goyal 107 · All in One 70 · RSA 35</span></div></a><a class="card" style="--c:#DC2626" href="chapter-08-sequences-progressions.html"><div class="num">Chapter 8</div><div class="t">Predicting What Comes Next: Exploring Sequences and Progressions</div><div class="los"><span style="--l:#2563EB">LO 1 · Patterns &amp; notation</span><span style="--l:#DB2777">LO 2 · Explicit rule</span><span style="--l:#059669">LO 3 · Recursive rule</span><span style="--l:#EA580C">LO 4 · AP &amp; its nth term</span><span style="--l:#7C3AED">LO 5 · Sum 1 + 2 + … + n</span><span style="--l:#0891B2">LO 6 · GP &amp; its nth term</span><span style="--l:#CA8A04">LO 7 · GP models &amp; fractals</span></div><div class="meta"><span>🎯 371 practice</span><span>🧪 7 LO tests</span><span>📗 76 NCERT</span><span>Goyal 106 · All in One 147</span></div></a></div><h2>📘 Ganita Manjari Part II <small>6 chapters</small></h2><div class="grid"><a class="card" style="--c:#2563EB" href="chapter-09-propositions-converses.html"><div class="num">Chapter 9</div><div class="t">Propositions and their Converses</div><div class="los"><span style="--l:#2563EB">LO 1 · Propositions &amp; if–then form</span><span style="--l:#DB2777">LO 2 · Framing converses</span><span style="--l:#059669">LO 3 · Counterexamples</span><span style="--l:#EA580C">LO 4 · Converses in geometry</span><span style="--l:#7C3AED">LO 5 · Converses with numbers</span></div><div class="meta"><span>🎯 85 practice</span><span>🧪 5 LO tests</span><span>📗 39 NCERT</span><span>Goyal 14</span></div></a><a class="card" style="--c:#DB2777" href="chapter-10-weighted-average-stacked-charts.html"><div class="num">Chapter 10</div><div class="t">How Quantities Combine: Understanding Data</div><div class="los"><span style="--l:#2563EB">LO 1 · Combining averages</span><span style="--l:#DB2777">LO 2 · Mixtures &amp; concentration</span><span style="--l:#059669">LO 3 · Custom weights &amp; ratings</span><span style="--l:#EA580C">LO 4 · Stacked bar charts</span><span style="--l:#7C3AED">LO 5 · Making 100% stacked charts</span><span style="--l:#0891B2">LO 6 · Inferences from stacked charts</span></div><div class="meta"><span>🎯 220 practice</span><span>🧪 6 LO tests</span><span>📗 72 NCERT</span><span>Goyal 42 · RSA 68</span></div></a><a class="card" style="--c:#059669" href="chapter-11-algorithms.html"><div class="num">Chapter 11</div><div class="t">The World of Algorithms</div><div class="los"><span style="--l:#2563EB">LO 1 · Addition algorithm</span><span style="--l:#DB2777">LO 2 · Divisors &amp; first gcd</span><span style="--l:#059669">LO 3 · Designing list algorithms</span><span style="--l:#EA580C">LO 4 · Improving &amp; analysing</span><span style="--l:#7C3AED">LO 5 · Euclid&#x27;s subtraction</span><span style="--l:#0891B2">LO 6 · Āryabhaṭa&#x27;s division</span></div><div class="meta"><span>🎯 79 practice</span><span>🧪 6 LO tests</span><span>📗 42 NCERT</span></div></a><a class="card" style="--c:#EA580C" href="chapter-12-quadrilaterals.html"><div class="num">Chapter 12</div><div class="t">Quadrilaterals</div><div class="los"><span style="--l:#2563EB">LO 1 · Defining &amp; classifying 4-gons</span><span style="--l:#DB2777">LO 2 · Angle sums, sides &amp; diagonals</span><span style="--l:#059669">LO 3 · Parallelogram tests</span><span style="--l:#EA580C">LO 4 · Midpoint Theorem &amp; converse</span><span style="--l:#7C3AED">LO 5 · Centroid &amp; Varignon</span><span style="--l:#0891B2">LO 6 · Tiling the plane</span></div><div class="meta"><span>🎯 333 practice</span><span>🧪 6 LO tests</span><span>📗 84 NCERT</span><span>Goyal 101 · RSA 108</span></div></a><a class="card" style="--c:#7C3AED" href="chapter-13-linear-equations.html"><div class="num">Chapter 13</div><div class="t">Two Variables, One Line</div><div class="los"><span style="--l:#2563EB">LO 1 · Standard form</span><span style="--l:#DB2777">LO 2 · Solutions &amp; graph</span><span style="--l:#059669">LO 3 · Slope &amp; intercept</span><span style="--l:#EA580C">LO 4 · Framing a pair</span><span style="--l:#7C3AED">LO 5 · Substitution &amp; elimination</span><span style="--l:#0891B2">LO 6 · Nature &amp; graphs of a pair</span></div><div class="meta"><span>🎯 315 practice</span><span>🧪 6 LO tests</span><span>📗 76 NCERT</span><span>Goyal 147 · RSA 45</span></div></a><a class="card" style="--c:#0891B2" href="chapter-14-surface-area-volume.html"><div class="num">Chapter 14</div><div class="t">Math of Space: Surface Area and Volume</div><div class="los"><span style="--l:#2563EB">LO 1 · Cuboids &amp; cubes</span><span style="--l:#DB2777">LO 2 · Cylinders</span><span style="--l:#059669">LO 3 · Cones &amp; pyramids</span><span style="--l:#EA580C">LO 4 · Spheres &amp; hemispheres</span><span style="--l:#7C3AED">LO 5 · Comparing &amp; changing solids</span><span style="--l:#0891B2">LO 6 · Guesstimates</span></div><div class="meta"><span>🎯 430 practice</span><span>🧪 6 LO tests</span><span>📗 67 NCERT</span><span>Goyal 142 · RSA 179</span></div></a></div>
-
-</div></main>
-<div id="reader" hidden><div class="rbar"><button type="button" id="rClose">← All chapters</button><span id="rTitle"></span></div><iframe id="rFrame" title="Chapter sheet"></iframe></div>
-<div id="reauth" hidden><span>Your Gmail sign-in has expired (sign-ins last 6 hours). Sign in again; your work on this page is kept.</span><a class="gsign" id="gbtn2" href="#" target="_blank" rel="opener">Sign in again</a></div>
-<footer class="band">Brain &amp; Mind Academy · Sopaan Practice Series · Topics follow NCERT Ganita Manjari (Grade 9). Questions are re-worded for interactive practice.</footer>
+</head>
+<body>
+<header><div class="eb">Brain &amp; Mind Academy · Sopaan</div><h1 id="title">CBSE Class 9 Mathematics</h1></header>
+<main><form class="card" id="f" novalidate>
+  <h2>Sign in</h2><p class="lead">Use the login ID and PIN given by your teacher. Each login works for one attempt per chapter, on one device.</p>
+  <label for="sheet">Chapter</label><select id="sheet"></select>
+  <label for="id">Login ID</label><input id="id" autocomplete="username" autocapitalize="characters" required>
+  <label for="pin">PIN</label><input id="pin" type="password" inputmode="numeric" autocomplete="current-password" required>
+  <button id="go" type="submit">Open sheet</button>
+  <div class="err" id="err" role="alert"></div>
+  <p class="note">Your answers are saved on this device as you work. Each 30-minute LO test can be submitted once. When you have submitted all the LO tests of a chapter, your attempt is complete and your marks go to your teacher.</p>
+</form></main>
 <script>
 (function(){
-  var CH=[{"num": 1, "title": "Orienting Yourself: The Use of Coordinates", "file": "chapter-01-coordinates.html"}, {"num": 2, "title": "Introduction to Linear Polynomials", "file": "chapter-02-linear-polynomials.html"}, {"num": 3, "title": "The World of Numbers", "file": "chapter-03-number-system.html"}, {"num": 4, "title": "Exploring Algebraic Identities", "file": "chapter-04-algebraic-identities.html"}, {"num": 5, "title": "I'm Up and Down, and Round and Round", "file": "chapter-05-circles.html"}, {"num": 6, "title": "Measuring Space: Perimeter and Area", "file": "chapter-06-perimeter-area.html"}, {"num": 7, "title": "The Mathematics of Maybe: Introduction to Probability", "file": "chapter-07-probability.html"}, {"num": 8, "title": "Predicting What Comes Next: Exploring Sequences and Progressions", "file": "chapter-08-sequences-progressions.html"}, {"num": 9, "title": "Propositions and their Converses", "file": "chapter-09-propositions-converses.html"}, {"num": 10, "title": "How Quantities Combine: Understanding Data", "file": "chapter-10-weighted-average-stacked-charts.html"}, {"num": 11, "title": "The World of Algorithms", "file": "chapter-11-algorithms.html"}, {"num": 12, "title": "Quadrilaterals", "file": "chapter-12-quadrilaterals.html"}, {"num": 13, "title": "Two Variables, One Line", "file": "chapter-13-linear-equations.html"}, {"num": 14, "title": "Math of Space: Surface Area and Volume", "file": "chapter-14-surface-area-volume.html"}], CFG=window.SOPAAN_CONFIG||{};
-  var ready=!!(CFG.signinUrl&&CFG.recordsUrl&&CFG.signinUrl.indexOf('PASTE')<0&&CFG.recordsUrl.indexOf('PASTE')<0);
-  var AUTH={code:null,user:null};
-  function toast(m){ var t=document.createElement('div'); t.className='toast2'; t.textContent=m; document.body.appendChild(t); setTimeout(function(){ t.remove(); },2600); }
-  function here(){ return location.href.split('#')[0]; }
-  function signinHref(){ return CFG.signinUrl+'?return='+encodeURIComponent(here()); }
-  function post(action,data){ return fetch(CFG.recordsUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action:action,session:AUTH.code},data||{}))})
-    .then(function(r){ return r.json(); }); }
-  function showUser(){ var w=document.getElementById('who'), so=document.getElementById('signout'), g=document.getElementById('gbtn');
-    if(AUTH.user){ w.innerHTML='Signed in as <b></b> · <span></span>'; w.querySelector('b').textContent=AUTH.user.name; w.querySelector('span').textContent=AUTH.user.email; so.hidden=false; g.hidden=true; }
-    else { w.textContent=AUTH.code?'Checking your sign-in…':'Sign in with your Gmail account to open the chapters.'; so.hidden=true; g.hidden=!ready||!!AUTH.code; }
-    document.querySelectorAll('a.card').forEach(function(a){ a.classList.toggle('locked',!AUTH.user); }); }
-  function save(){ try{ if(AUTH.code) localStorage.setItem('sopaan-session',JSON.stringify({code:AUTH.code,user:AUTH.user,t:Date.now()})); else localStorage.removeItem('sopaan-session'); }catch(e){} }
-  function expired(){ AUTH.user=null; AUTH.code=null; save(); showUser(); if(!document.getElementById('reader').hidden) document.getElementById('reauth').hidden=false; }
-  function check(){ return post('status',{}).then(function(j){ if(!j.ok) throw new Error(j.error||'error'); AUTH.user=j.user; save(); document.getElementById('reauth').hidden=true; showUser(); return j; }); }
-  window.SOPAAN_HOST={mode:'gmail', get user(){ return AUTH.user; },
-    api:function(action,data){ if(!ready) return Promise.reject(new Error('not_set_up')); if(!AUTH.code){ expired(); return Promise.reject(new Error('sign_in_needed')); }
-      return post(action,data).then(function(j){ if(!j.ok){ if(/session_expired|not_signed_in/.test(j.error||'')) expired(); throw new Error(j.error||'error'); } return j; }); } };
-  // Back from Google with a new session code?
-  var m=/[#&]sopaan=([a-f0-9]{32,64})/.exec(location.hash);
-  if(m){ AUTH.code=m[1]; try{ history.replaceState(null,'',here()); }catch(e){ location.hash=''; } try{ if(window.opener&&window.opener!==window&&window.opener.sopaanSession){ window.opener.sopaanSession(AUTH.code); window.close(); } }catch(e){} }
-  else { try{ var sv=JSON.parse(localStorage.getItem('sopaan-session')||'null'); if(sv&&Date.now()-sv.t<6*3600*1000-60000){ AUTH.code=sv.code; AUTH.user=sv.user; } }catch(e){} }
-  window.sopaanSession=function(code){ AUTH.code=code; AUTH.user=null; showUser(); check().then(function(){ toast('Signed in again.'); }).catch(function(){ expired(); }); };
-  if(!ready){ document.getElementById('setup').hidden=false; }
-  document.getElementById('gbtn').href=ready?signinHref():'#'; document.getElementById('gbtn2').href=ready?signinHref():'#';
-  showUser(); if(ready&&AUTH.code) check().catch(function(e){ if(/session_expired|not_signed_in/.test(String(e&&e.message))) expired(); else { showUser(); } });
-  document.getElementById('signout').addEventListener('click',function(){ AUTH.user=null; AUTH.code=null; save(); window.sopaanOpen('index.html'); showUser(); });
-  var R=document.getElementById('reader'), F=document.getElementById('rFrame');
-  window.sopaanOpen=function(u){ if(!u||/(^|\/)index\.html$/.test(u)){ R.hidden=true; document.body.classList.remove('reading'); F.removeAttribute('src'); return; }
-    if(!AUTH.user){ toast('Sign in with Gmail first.'); return; }
-    var c=CH.filter(function(x){ return x.file===u; })[0]; document.getElementById('rTitle').textContent=c?('Chapter '+c.num+' · '+c.title):''; F.src=u; R.hidden=false; document.body.classList.add('reading'); window.scrollTo(0,0); };
-  document.getElementById('rClose').addEventListener('click',function(){ window.sopaanOpen('index.html'); });
-  document.querySelectorAll('a.card').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); window.sopaanOpen(a.getAttribute('href')); }); });
+  var API = 'https://script.google.com/macros/s/AKfycbybytA4OLbXk4IDkKgrzqJSnjmZYSS21Z5mdNE7S0GWkvToc82uXTBwnhdmBE8ltMvD/exec';   // the Apps Script web app link ending in /exec
+  var SHEETS = [["ch01", "Ch 1 · Orienting Yourself: The Use of Coordinates"], ["ch02", "Ch 2 · Introduction to Linear Polynomials"], ["ch03", "Ch 3 · The World of Numbers"], ["ch04", "Ch 4 · Exploring Algebraic Identities"], ["ch05", "Ch 5 · I'm Up and Down, and Round and Round"], ["ch06", "Ch 6 · Measuring Space: Perimeter and Area"], ["ch07", "Ch 7 · The Mathematics of Maybe: Introduction to Probability"], ["ch08", "Ch 8 · Predicting What Comes Next: Exploring Sequences and Progressions"], ["ch09", "Ch 9 · Propositions and their Converses"], ["ch10", "Ch 10 · How Quantities Combine: Understanding Data"], ["ch11", "Ch 11 · The World of Algorithms"], ["ch12", "Ch 12 · Quadrilaterals"], ["ch13", "Ch 13 · Two Variables, One Line"], ["ch14", "Ch 14 · Math of Space: Surface Area and Volume"]];
+  function ls(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e) { return null; } }
+  var dev = ls('sopaan-device'); if (!dev) { dev = 'D' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); ls('sopaan-device', dev); }
+  var q = new URLSearchParams(location.search), pre = q.get('sheet'), sel = document.getElementById('sheet');
+  SHEETS.forEach(function(s){ var o = document.createElement('option'); o.value = s[0]; o.textContent = s[1]; sel.appendChild(o); });
+  if (pre && SHEETS.some(function(s){ return s[0] === pre; })) sel.value = pre; else { var lastSheet = ls('sopaan9-sheet'); if (lastSheet && SHEETS.some(function(s){ return s[0] === lastSheet; })) sel.value = lastSheet; }
+  var last = ls('sopaan-login'); if (last) document.getElementById('id').value = last;
+  var err = document.getElementById('err'), go = document.getElementById('go');
+  function fail(m){ err.textContent = m; err.classList.add('on'); go.disabled = false; go.textContent = 'Open sheet'; }
+  document.getElementById('f').addEventListener('submit', function(e){
+    e.preventDefault(); err.classList.remove('on');
+    var id = document.getElementById('id').value.trim().toUpperCase(), pin = document.getElementById('pin').value.trim();
+    if (!id || !pin) return fail('Please enter your login ID and PIN.');
+    if (API.indexOf('PASTE') === 0) return fail('The sign-in server is not set up yet. Please contact your teacher.');
+    go.disabled = true; go.textContent = 'Opening…';
+    fetch(API, {method: 'POST', body: JSON.stringify({action: 'start', login: id, pin: pin, sheet: sel.value, device: dev})})
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (!d || !d.ok) return fail(d && d.msg ? d.msg : 'Could not sign in. Please try again.');
+        ls('sopaan-login', id); ls('sopaan9-sheet', sel.value);
+        var home = location.href.split('?')[0].split('#')[0];
+        var lk = '<script>window.__SOPAAN_LOCK__=' + JSON.stringify({token: d.token, api: API, login: d.login, name: d.name, sheet: d.sheet, home: home}).replace(/</g, '\\u003c') + ';<\/script>';
+        var html = d.html.replace(/<head>/i, '<head>' + lk);
+        document.open(); document.write(html); document.close();
+      })
+      .catch(function(){ fail('Could not reach the server. Check your internet connection and try again.'); });
+  });
 })();
 </script>
-</body></html>
+</body>
+</html>

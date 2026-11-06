@@ -1,30 +1,27 @@
-# Setup: Gmail sign-in and the Quiz Records sheet
+# Sopaan Class 9: logins, locks and records
 
-This setup is already done. Your links are in `sopaan-config.js`. This page records how it works and how to redo it. No Google Cloud project or Client ID is needed.
+This works the same way as the Class 10 program:
+- You give each student a **Login ID and PIN**.
+- The student opens the site, picks a chapter and signs in.
+- The server checks the login and sends that chapter's sheet.
 
-## The pieces
-| Piece | Where it lives | Deployed as |
-|---|---|---|
-| **Quiz Records** sheet | https://docs.google.com/spreadsheets/d/1mm6mCNhvse0DnForcc1HuOCLWsllwakb39i-a2Uuv60/edit | – |
-| **Records script** (`apps-script/Code.gs`) | Apps Script project bound to the sheet | Web app · Execute as **Me** · Access **Anyone** |
-| **Sopaan Sign-in** (`apps-script/Signin.gs`) | Separate Apps Script project "Sopaan Sign-in" | Two web-app deployments: **Sign-in** (Execute as **User accessing the web app** · Access **Anyone with Google account**) and **Lookup** (Execute as **Me** · Access **Anyone**) |
+## Rules
+- **One attempt per chapter, on one device.** If the student closes the page, they can sign in again on the same device and carry on. Their answers are saved on that device.
+- **Each 30-minute LO test can be submitted once.** When every LO test of the chapter is submitted, the attempt is **finished**, and that login can't open the chapter again.
+- **Name:** the student's name comes from your Logins tab, never from what they type.
 
-## How sign-in works
-1. A student presses **Sign in with Google** on the site. That opens the Sign-in link.
-2. Google confirms which Gmail account they are using. The first time, Google asks the student to allow "see your email address".
-3. The student presses **Continue to Sopaan**. They return to the site with a one-time session code that lasts 6 hours.
-4. When a test is started or submitted, the records script asks the Lookup link which Gmail account the code belongs to, then writes or reads that student's rows. A name typed into a form is never used. The name in the sheet comes from the student's Gmail address.
+## Where things live
+| What | Where |
+|---|---|
+| Logins, attempts, records | Google Sheet https://docs.google.com/spreadsheets/d/1mm6mCNhvse0DnForcc1HuOCLWsllwakb39i-a2Uuv60/edit, in the tabs **Logins**, **Attempts**, **Quiz Records** and **Products** |
+| Server | Apps Script bound to that sheet (`apps-script/Server.gs`), deployed as a Web app: Execute as **Me** · Who has access **Anyone** |
+| Chapter sheets | Google Drive folder **Sopaan Class 9 Maths · chapter files** (`ch01.html` … `ch14.html`) |
+| Login page | `index.html` in this repo, on GitHub Pages |
 
-## Records
-- Each LO test can be taken once.
-- When a test is submitted, a row is added to the **Quiz Records** tab with these columns: User Name · Quiz Name · Completion Status · Completion Date · Completion Time · Email · Quiz Key · Score · Total.
-- **To allow a retake:** delete that student's row for that test.
-- **To limit sign-in to some accounts:** set `ALLOWED_DOMAINS` in the records script, for example `['yourschool.in']`, then go to **Deploy › Manage deployments › Edit › New version**.
-
-## Changing a script later
-Edit the script, then go to **Deploy › Manage deployments › ✏️ › Version: New version › Deploy**. The links stay the same.
-
-## GitHub Pages
-Open **Settings › Pages** in the repo. Set Source to **Deploy from a branch**, branch **main**, folder **/ (root)**.
-
-The site is at `https://brainmind2047.github.io/sopaan_cbse_ix_math/`.
+## Teacher guide (in the Google Sheet, use the **Sopaan** menu)
+- **Create logins:** choose Sopaan › 2 · Create logins…, enter how many, then which chapters they open (for example `ch01, ch02`, or `ALL`). Type each student's name in column C before you hand out the ID and PIN. You can also type logins in by hand.
+- **See progress:** check the **Attempts** tab. It shows one row per login per chapter, with Status, Device, Last seen, Progress and Test marks.
+- **See results:** check the **Quiz Records** tab. It gets one row per LO test submitted: User Name · Quiz Name · Completion Status · Completion Date · Completion Time · Login ID · Quiz Key · Score · Total.
+- **Allow a new attempt:** in the Attempts tab, click the student's row, then choose Sopaan › Reset the selected attempt. They can then start that chapter again on any device, and its LO tests open again.
+- **Block a login:** delete the row from Logins, or change its PIN.
+- **Update the chapter files:** choose Sopaan › Import chapter files… and enter the commit code Claude gives you, or replace the files in the Drive folder by hand.

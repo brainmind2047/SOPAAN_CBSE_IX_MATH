@@ -2912,7 +2912,23 @@ document.getElementById('modePill').addEventListener('click',function(e){ if(isT
    results/<accountId>                     -> roster summary (one doc per signed-in account, keyed by student)
    results/<accountId>/sheets/<ch>__<key>  -> full record for one chapter (records, test scores, practice accuracy) */
 var BKP={db:null,uid:null,t:null,busy:false,again:false,status:'off'};
-function sopaanHost(){ try{ var h=window.parent!==window&&window.parent.SOPAAN_HOST; if(h&&typeof h.api==='function') return h; }catch(e){} return null; }
+/* Login-ID lock (same as Class 10): the login page writes window.__SOPAAN_LOCK__ = {token, api, login, name, sheet, home} into this page */
+var XHOST=null;
+function xlockHost(){ var L=window.__SOPAAN_LOCK__; if(!L||!L.token||!L.api) return null; if(XHOST) return XHOST;
+  XHOST={mode:'xlock', lock:L, user:{name:L.name||L.login, email:L.login},
+    api:function(action,data){ var body=Object.assign({action:action,token:L.token},data||{});
+      if(action==='submit') body.totalTests=LOS.filter(function(lo){ return lo.test; }).length;
+      return fetch(L.api,{method:'POST',body:JSON.stringify(body)}).then(function(r){ return r.json(); })
+        .then(function(j){ if(!j||!j.ok) throw new Error((j&&j.msg)||'error'); if(j.finished) XHOST.finished=true; return j; }); } };
+  return XHOST; }
+function sopaanHost(){ var x=xlockHost(); if(x) return x; try{ var h=window.parent!==window&&window.parent.SOPAAN_HOST; if(h&&typeof h.api==='function') return h; }catch(e){} return null; }
+/* progress note for the teacher's Attempts tab (sent at most once a minute) */
+var XSAVE={t:0,timer:null,last:''};
+function xlockProgress(){ var ans=0,n=0,ok=0,tests=0,sub=0; LOS.forEach(function(lo){ var p=loPracticeStats(lo.id); if(p){ ans+=p.ans||0; n+=p.n||0; ok+=p.ok||0; } if(lo.test){ tests++; var t=loTestStats(lo.test); if(t&&t.done) sub++; } });
+  return 'Practice '+ans+'/'+n+' answered'+(ans?' · '+Math.round(100*ok/ans)+'% correct':'')+' · LO tests '+sub+'/'+tests; }
+function xlockSave(){ var X=xlockHost(); if(!X||!student) return; var now=Date.now(); clearTimeout(XSAVE.timer);
+  if(now-XSAVE.t<60000){ XSAVE.timer=setTimeout(xlockSave,60000-(now-XSAVE.t)+50); return; }
+  var pr=''; try{ pr=xlockProgress(); }catch(e){ return; } if(pr===XSAVE.last) return; XSAVE.t=now; XSAVE.last=pr; X.api('save',{progress:pr}).catch(function(){ XSAVE.last=''; }); }
 function sopaanClaude(){ if(sopaanHost()) return null; try{ if(window.claude&&typeof window.claude.use==='function') return window.claude; }catch(e){} try{ var pc=window.parent!==window&&window.parent.claude; if(pc&&typeof pc.use==='function') return pc; }catch(e){} return null; }
 (function(){ var C=sopaanClaude(); if(!C) return;
   Promise.all([C.use('user'),C.use('db')]).then(function(r){ var u=r[0], db=r[1]; if(!u||!db) return null;
@@ -2936,11 +2952,11 @@ function bkpPush(){ if(!BKP.db||!student) return; if(BKP.busy){ BKP.again=true; 
     .then(function(){ BKP.busy=false; if(BKP.again){ BKP.again=false; bkpSchedule(2000); } }); }
 function bkpBadge(){ var w=document.getElementById('whoBar'); if(!w||w.hidden) return; var b=document.getElementById('bkpB'); if(!b){ b=document.createElement('span'); b.id='bkpB'; b.className='bkp-b'; w.appendChild(b); }
   b.textContent = BKP.status==='saved' ? '☁️ Backed up' : (BKP.status==='retry' ? '☁️ Backup will retry' : (BKP.status==='local' ? '💾 Saved on this device' : '')); b.hidden=!b.textContent; }
-(function(){ var _ss=saveState; saveState=function(){ _ss(); bkpSchedule(); }; })();
+(function(){ var _ss=saveState; saveState=function(){ _ss(); bkpSchedule(); try{ xlockSave(); }catch(e){} }; })();
 (function(){ var _rw=renderWho; renderWho=function(){ _rw(); bkpBadge(); }; })();
 
 /* when the main page hosts this chapter in its reader, links go through the host */
-function sopaanNav(u){ try{ if(window.parent!==window&&typeof window.parent.sopaanOpen==='function'){ window.parent.sopaanOpen(u); return; } }catch(e){} window.location.href=u; }
+function sopaanNav(u){ var X=xlockHost(); if(X){ var m=/chapter-(\d\d)/.exec(u||''), home=X.lock.home||'index.html'; window.location.href=home+(m?'?sheet=ch'+m[1]:''); return; } try{ if(window.parent!==window&&typeof window.parent.sopaanOpen==='function'){ window.parent.sopaanOpen(u); return; } }catch(e){} window.location.href=u; }
 document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('.gnav a'); if(!a) return; e.preventDefault(); sopaanNav(a.getAttribute('href')); },true);
 
 /* ================= one-attempt lock: server-side quiz records =================
@@ -2952,7 +2968,7 @@ function lockKey(tab){ var sec=secOf(tab); return 'ch'+String(CHAPTER.num).padSt
 function lockName(tab){ var lo=LOMAP[(secOf(tab)||{}).lo]||{}; return 'Ch '+CHAPTER.num+' · Test '+(lo.code||'')+' · '+(lo.short||''); }
 function lockRecord(tab){ return LOCK.state==='on'&&LOCK.rec?LOCK.rec[lockKey(tab)]||null:null; }
 function lockPad(n){ return String(n).padStart(2,'0'); }
-(function(){ if(sopaanHost()){ LOCK.mode='gmail'; lockStatus(); return; } var C=sopaanClaude(); if(!C){ LOCK.state='off'; return; }
+(function(){ var H0=sopaanHost(); if(H0){ LOCK.mode=H0.mode==='xlock'?'xlock':'gmail'; lockStatus(); return; } var C=sopaanClaude(); if(!C){ LOCK.state='off'; return; }
   Promise.all([C.use('user'),C.use('db')]).then(function(r){ var u=r[0], db=r[1]; if(!u||!db){ LOCK.state='off'; lockRefresh(); return; }
     return u.id().then(function(id){ if(!id){ LOCK.state='off'; lockRefresh(); return; } LOCK.db=db; LOCK.uid=id;
       db.doc('quiz_records/'+id).onSnapshot(function(snap){ var d=snap.exists?snap.data():null; LOCK.rec=(d&&d.quizzes)||{}; LOCK.state='on'; lockRefresh(); },
@@ -2961,11 +2977,11 @@ setTimeout(function(){ if(LOCK.state==='pending'){ LOCK.state='off'; lockRefresh
 function lockRefresh(){ try{ if(student&&MODE){ buildTabbar(); if(isTestTab(activeTab)) renderSlide(); } }catch(e){} }
 function lockStatus(){ var H=sopaanHost(); if(!H) return Promise.resolve(); LOCK.asked=Date.now();
   return H.api('status',{}).then(function(r){ LOCK.rec=r.records||{}; LOCK.state='on'; lockRefresh(); }).catch(function(e){ if(LOCK.state!=='on'){ LOCK.state='off'; LOCK.err=String(e&&e.message||e); } lockRefresh(); }); }
-function lockCheck(tab){ if(LOCK.mode==='gmail') return lockStatus().then(function(){ return LOCK.state==='on'&&!LOCK.rec[lockKey(tab)]; });
+function lockCheck(tab){ if(LOCK.mode==='gmail'||LOCK.mode==='xlock') return lockStatus().then(function(){ return LOCK.state==='on'&&!LOCK.rec[lockKey(tab)]; });
   if(LOCK.state!=='on') return Promise.resolve(false);
   return LOCK.db.doc('quiz_records/'+LOCK.uid).get().then(function(snap){ var d=snap.exists?snap.data():null; LOCK.rec=(d&&d.quizzes)||{}; return !LOCK.rec[lockKey(tab)]; }).catch(function(){ return false; }); }
 function lockWrite(tab,score,total){ if(LOCK.state!=='on'||lockRecord(tab)) return;
-  if(LOCK.mode==='gmail'){ var k=lockKey(tab); sopaanHost().api('submit',{quizKey:k,quizName:lockName(tab),score:score,total:total}).then(function(r){ LOCK.rec[k]=r.record; lockRefresh(); }).catch(function(){ showToast('Your result could not be saved to the school record. Check your connection and sign-in, then open this test again.'); }); return; } var now=new Date(), key=lockKey(tab);
+  if(LOCK.mode==='gmail'||LOCK.mode==='xlock'){ var k=lockKey(tab); sopaanHost().api('submit',{quizKey:k,quizName:lockName(tab),score:score,total:total}).then(function(r){ LOCK.rec[k]=r.record; lockRefresh(); if(r.finished) showToast('All LO tests are submitted. Your attempt for this chapter is complete and your marks have gone to your teacher.'); }).catch(function(){ showToast('Your result could not be saved to the school record. Check your connection and sign-in, then open this test again.'); }); return; } var now=new Date(), key=lockKey(tab);
   var entry={quiz:lockName(tab),status:'Completed',date:now.getFullYear()+'-'+lockPad(now.getMonth()+1)+'-'+lockPad(now.getDate()),time:lockPad(now.getHours())+':'+lockPad(now.getMinutes())+':'+lockPad(now.getSeconds()),score:score,total:total,at:now.getTime()};
   var q={}; q[key]=entry; LOCK.rec=LOCK.rec||{}; LOCK.rec[key]=entry; var ref=LOCK.db.doc('quiz_records/'+LOCK.uid);
   ref.update({quizzes:q}).catch(function(e){ if(e&&e.code==='invalid_argument') return ref.set({quizzes:q}); throw e; }).catch(function(){ showToast('Your result could not be saved to the school record. Keep this page open and check your connection.'); }); }
@@ -2977,8 +2993,8 @@ function lockCard(icon,title,lines,tab){ var s=secOf(tab), lo=LOMAP[s.lo]||{};
 (function(){ var _rs=renderSlide; renderSlide=function(){
   if(MODE && isTestTab(activeTab)){ enterTest(); var ts=tsOf(activeTab), rec=lockRecord(activeTab);
     if(LOCK.state==='pending'){ lockCard('⏳','Checking your test record…',['Connecting to the school record for this test.'],activeTab); return; }
-    if(LOCK.mode==='gmail' && LOCK.state==='on' && Date.now()-(LOCK.asked||0)>8000){ lockStatus(); }
-    if(LOCK.state==='off'){ lockCard('🔒','LO tests are locked here', LOCK.mode==='gmail' ? ['The school test record could not be reached, so tests stay locked to keep them to one attempt.','Check your internet connection and that you are signed in with Gmail on the main page, then open this test again.'] : ['LO tests open only when this sheet is opened from the main page after signing in with Gmail, so that each test can be taken exactly once.','Practice sheets and theory notes work as usual.'],activeTab); return; }
+    if((LOCK.mode==='gmail'||LOCK.mode==='xlock') && LOCK.state==='on' && Date.now()-(LOCK.asked||0)>8000){ lockStatus(); }
+    if(LOCK.state==='off'){ lockCard('🔒','LO tests are locked here', LOCK.mode==='xlock' ? ['The test record could not be reached, so tests stay locked to keep them to one attempt.','Check your internet connection, then open this test again.'] : LOCK.mode==='gmail' ? ['The school test record could not be reached, so tests stay locked to keep them to one attempt.','Check your internet connection and that you are signed in with Gmail on the main page, then open this test again.'] : ['LO tests open only when this sheet is opened from the main page after signing in with Gmail, so that each test can be taken exactly once.','Practice sheets and theory notes work as usual.'],activeTab); return; }
     if(!rec && ts.submitted){ appState.test.tabs[activeTab]={idx:0,maxReached:0,items:SLIDES[activeTab].map(function(sl){ return blankItem(sl); })}; saveState(); showToast('Your teacher has allowed a retake of this test.'); }
     else if(rec && !ts.submitted){ lockCard('🔒','Test already completed',['This test was completed on <b>'+esc(rec.date)+'</b> at <b>'+esc(rec.time)+'</b>'+(rec.total?' · score <b>'+rec.score+' / '+rec.total+'</b>':'')+'.','Each LO test can be taken only once. Ask your teacher if you need a retake.'],activeTab); return; }
   }
@@ -2995,7 +3011,7 @@ function lockCard(icon,title,lines,tab){ var s=secOf(tab), lo=LOMAP[s.lo]||{};
   if(!acc.students[k]){ acc.students[k]={name:(u.name||u.email).replace(/\s+/g,' '),roll:u.email,pin:hashPin('google',k),created:Date.now(),google:true}; lsSet(ACC_KEY,acc); }
   signIn(k); }; })();
 (function(){ var _rw=renderWho; renderWho=function(){ _rw(); if(!sopaanHost()) return; var el=document.getElementById('whoBar'); if(!el||el.hidden||!student) return;
-  el.innerHTML='Signed in with Gmail as <b>'+esc(student.name)+'</b> · '+esc(student.roll)+' <button id="btnRecord">My record</button>';
+  el.innerHTML=(xlockHost()?'Signed in as <b>'+esc(student.name)+'</b> · Login '+esc(student.roll):'Signed in with Gmail as <b>'+esc(student.name)+'</b> · '+esc(student.roll))+' <button id="btnRecord">My record</button>';
   document.getElementById('btnRecord').addEventListener('click', renderRecord); }; })();
 
 renderLogin();
